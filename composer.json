@@ -1,0 +1,19 @@
+{
+    "name": "grasmash/symfony-console-spinner",
+    "description": "A utility for creating an animated spinner via Symfony Console.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Grasmash\\SymfonyConsoleSpinner\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Grasmick",
+            "email": "matt.grasmick@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
