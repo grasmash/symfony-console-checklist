@@ -10,7 +10,9 @@ final class SpinnerTest extends TestCase
     public function testSpinner(): void
     {
         $output = new BufferedConsoleOutput();
-        $output->setOutputStreamFilename(__DIR__ . '/../../build/test_stream');
+        $output_stream_filename = __DIR__ . '/../../build/test_stream';
+        touch($output_stream_filename);
+        $output->setOutputStreamFilename($output_stream_filename);
         $spinner = new Spinner($output);
 
         $spinner->start();

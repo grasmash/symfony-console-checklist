@@ -11,6 +11,7 @@ final class ChecklistTest extends TestCase
     {
         $output = new BufferedConsoleOutput();
         $output_stream_filename = __DIR__ . '/../../build/test_stream';
+        touch($output_stream_filename);
         $output->setOutputStreamFilename($output_stream_filename);
         $checklist = new Checklist($output);
 
