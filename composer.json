@@ -30,7 +30,7 @@
         "php-coveralls/php-coveralls": "^2.5",
         "phpstan/phpstan": "^1.9",
         "squizlabs/php_codesniffer": "^3.7",
-        "overtrue/phplint": "^6.1"
+        "overtrue/phplint": "^4"
     },
     "scripts": {
         "test": [
