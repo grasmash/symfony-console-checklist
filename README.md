@@ -17,7 +17,7 @@ $spinner->start();
 while (getting_the_file()) {
     $spinner->advance();
 }
-$spinner->finish()
+$spinner->finish();
 ```
 
 ### Simple Checklist
