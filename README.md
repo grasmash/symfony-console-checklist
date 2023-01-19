@@ -1,8 +1,10 @@
 # Symfony Console Spinner
 
 This utility provides two tools for use with Symfony Console:
-1. An animated spinner class. This is a wrapper around Symfony's built-in Progress Bar which will show colored, animated spinner. It requires advance() to be called in order for the spinner to spin.
+1. An animated spinner class. This is a wrapper around Symfony's built-in Progress Bar which will show a colored, animated spinner. It requires advance() to be called in order for the spinner to spin.
 2. A checklist class. This is a wrapper around the Spinner. It allows you to emit a checklist item, display a spinner next to it to indicate that it is in progress, and write a "message detail" under the item.
+
+![image](https://user-images.githubusercontent.com/539205/213492499-014d79f3-7b8b-4362-9f31-72f9dcaaa37b.png)
 
 ## Usage
 
@@ -15,7 +17,7 @@ $spinner->start();
 while (getting_the_file()) {
     $spinner->advance();
 }
-$spinner->finish()
+$spinner->finish();
 ```
 
 ### Simple Checklist
