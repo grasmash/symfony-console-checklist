@@ -12,7 +12,8 @@ use Symfony\Component\Console\Terminal;
 /**
  *
  */
-class Spinner {
+class Spinner
+{
     public const CHARS = ['⠏', '⠛', '⠹', '⢸', '⣰', '⣤', '⣆', '⡇'];
     private const COLORS = [
         196,
@@ -98,7 +99,8 @@ class Spinner {
      * @param int $indent
      * @param int $colorLevel
      */
-    public function __construct(OutputInterface $output, int $indent = 0, int $colorLevel = Color::COLOR_256) {
+    public function __construct(OutputInterface $output, int $indent = 0, int $colorLevel = Color::COLOR_256)
+    {
         $this->output = $output;
         $this->indentLength = $indent;
         $indentString = str_repeat(' ', $indent);
@@ -124,7 +126,8 @@ class Spinner {
     /**
      *
      */
-    public function start(): void {
+    public function start(): void
+    {
         if (!$this->spinnerIsSupported()) {
             return;
         }
@@ -134,7 +137,8 @@ class Spinner {
     /**
      *
      */
-    public function advance(): void {
+    public function advance(): void
+    {
         if (!$this->spinnerIsSupported() || $this->progressBar->getProgressPercent() === 1.0) {
             return;
         }
@@ -149,7 +153,8 @@ class Spinner {
     /**
      *
      */
-    private function getSpinnerCharacter(): ?string {
+    private function getSpinnerCharacter(): ?string
+    {
         if ($this->currentColorIdx === $this->colorCount) {
             $this->currentColorIdx = 0;
         }
@@ -163,14 +168,15 @@ class Spinner {
             return "\033[96m{$char}\033[0m";
         }
 
-        return NULL;
+        return null;
     }
 
     /**
      * @param string $message
      * @param string $name
      */
-    public function setMessage(string $message, string $name = 'message'): void {
+    public function setMessage(string $message, string $name = 'message'): void
+    {
         if (!$this->spinnerIsSupported()) {
             return;
         }
@@ -190,7 +196,8 @@ class Spinner {
     /**
      *
      */
-    public function finish(): void {
+    public function finish(): void
+    {
         if (!$this->spinnerIsSupported()) {
             return;
         }
@@ -202,7 +209,8 @@ class Spinner {
     /**
      *
      */
-    public function fail(): void {
+    public function fail(): void
+    {
         if (!$this->spinnerIsSupported()) {
             return;
         }
@@ -216,14 +224,16 @@ class Spinner {
      *
      * @return float
      */
-    public function interval(): float {
+    public function interval(): float
+    {
         return 0.1;
     }
 
     /**
      *
      */
-    private function spinnerIsSupported(): bool {
+    private function spinnerIsSupported(): bool
+    {
         return $this->output instanceof ConsoleOutput
             && (getenv('CI') !== 'true');
     }
@@ -231,8 +241,8 @@ class Spinner {
     /**
      * @return ProgressBar
      */
-    public function getProgressBar(): ProgressBar {
+    public function getProgressBar(): ProgressBar
+    {
         return $this->progressBar;
     }
-
 }

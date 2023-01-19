@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 final class ChecklistTest extends TestCase
 {
-
     public function testChecklist(): void
     {
         $output = new BufferedConsoleOutput();
@@ -38,4 +37,3 @@ final class ChecklistTest extends TestCase
         $this->assertStringContainsString('✔', $output_stream_contents);
     }
 }
-

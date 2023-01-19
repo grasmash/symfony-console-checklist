@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 final class SpinnerTest extends TestCase
 {
-
     public function testSpinner(): void
     {
         $output = new BufferedConsoleOutput();
@@ -27,4 +26,3 @@ final class SpinnerTest extends TestCase
         $this->assertContains($character, Spinner::CHARS);
     }
 }
-

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset name="SymfonyConsoleSpinner">
+
+  <description>Symfony Console Spinner configuration.</description>
+
+  <arg name="extensions" value="php"/>
+
+  <arg name="colors"/>
+  <arg name="cache" value="build/.phpcs-cache"/>
+  <arg name="parallel" value="10"/>
+
+  <file>src</file>
+  <file>tests</file>
+
+  <rule ref="PSR12"/>
+
+</ruleset>

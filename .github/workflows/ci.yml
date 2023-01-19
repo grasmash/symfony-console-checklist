@@ -1,0 +1,74 @@
+name: CI
+on:
+  push:
+    # Prevent duplicate jobs on Dependabot PRs that interfere with automerge.
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+  schedule:
+    - cron: "0 2 * * *"
+defaults:
+  run:
+    # Run Git Bash on Windows. Otherwise, it uses PowerShell Core, and we'd need
+    # to install more dependencies. Ubuntu default shell is already Bash.
+    # @see https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#using-a-specific-shell
+    shell: bash
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ["ubuntu-22.04"]
+        php: ["8.0", "8.1", "8.2"]
+        coverage: ["none"]
+        include:
+          - os: "ubuntu-22.04"
+            php: "8.1"
+            coverage: "pcov"
+          # Only test pre-installed (i.e. fast) versions of PHP on Windows.
+          - os: "windows-2022"
+            php: "8.2"
+            coverage: "none"
+    steps:
+      - name: Prepare Git
+        # Windows corrupts line endings on checkout, causing test failures.
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          ini-file: development
+          php-version: ${{ matrix.php }}
+          # Only report coverage once
+          coverage: ${{ matrix.coverage }}
+      - name: Check dependencies on Ubuntu
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          cat composer.lock | jq '.packages[] | select(.abandoned)' | grep -q ^ && echo 'Abandoned Composer packages found' && exit 1 || exit 0
+      - name: Composer install
+        run: composer install --prefer-dist --no-interaction --optimize-autoloader
+      - name: Run tests
+        if: matrix.coverage == 'none'
+        run: |
+          composer validate --no-check-all --ansi
+          composer dump-autoload --strict-psr
+          composer test
+      - name: Run coverage
+        if: matrix.coverage == 'pcov'
+        run: composer coverage
+      - name: Upload coverage results to Coveralls
+        if: matrix.coverage == 'pcov'
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: composer coveralls
+  # Require all checks to pass without having to enumerate them in the branch protection UI.
+  # @see https://github.community/t/is-it-possible-to-require-all-github-actions-tasks-to-pass-without-enumerating-them/117957
+  check:
+    if: always()
+    needs:
+      - test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

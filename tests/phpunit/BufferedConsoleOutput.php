@@ -4,7 +4,6 @@ namespace Grasmash\Tests;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * This is a combination of put and ConsoleOutput.
@@ -15,9 +14,10 @@ use Symfony\Component\Filesystem\Filesystem;
  * @see \Symfony\Component\Console\Output\put
  * @see \Symfony\Component\Console\Output\ConsoleOutput
  */
-class BufferedConsoleOutput extends ConsoleOutput {
+class BufferedConsoleOutput extends ConsoleOutput
+{
     private array $consoleSectionOutputs = [];
-    const ENV_VAR_KEY = 'phpunit_buffer_output';
+    private const ENV_VAR_KEY = 'phpunit_buffer_output';
     private string $outputStreamFilename;
 
     /**
@@ -26,7 +26,8 @@ class BufferedConsoleOutput extends ConsoleOutput {
      * @return string
      *   Contents of buffer
      */
-    public function fetch() {
+    public function fetch()
+    {
         $content = (string) getenv(self::ENV_VAR_KEY);
         putenv(self::ENV_VAR_KEY . '=');
 
@@ -36,13 +37,13 @@ class BufferedConsoleOutput extends ConsoleOutput {
     /**
      * {@inheritdoc}
      */
-    protected function doWrite($message, $newline) {
+    protected function doWrite($message, $newline)
+    {
         $output = getenv(self::ENV_VAR_KEY);
 
         if ($newline) {
             putenv(self::ENV_VAR_KEY . '=' . $output . $message . PHP_EOL);
-        }
-        else {
+        } else {
             putenv(self::ENV_VAR_KEY . '=' . $output . $message);
         }
 
@@ -55,16 +56,22 @@ class BufferedConsoleOutput extends ConsoleOutput {
     public function section(): ConsoleSectionOutput
     {
         $stream =  fopen($this->outputStreamFilename, 'w');
-        return new ConsoleSectionOutput($stream, $this->consoleSectionOutputs, $this->getVerbosity(), $this->isDecorated(), $this->getFormatter());
+        return new ConsoleSectionOutput(
+            $stream,
+            $this->consoleSectionOutputs,
+            $this->getVerbosity(),
+            $this->isDecorated(),
+            $this->getFormatter()
+        );
     }
 
-    public function getConsoleSectionVisibleOutput() {
+    public function getConsoleSectionVisibleOutput()
+    {
         return $this->consoleSectionOutputs[0]->getVisibleContent();
     }
 
-    public function setOutputStreamFilename(string $filename) {
+    public function setOutputStreamFilename(string $filename)
+    {
         $this->outputStreamFilename = $filename;
     }
-
-
 }

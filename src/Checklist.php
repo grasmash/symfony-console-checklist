@@ -8,7 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class Checklist {
+class Checklist
+{
     /**
      * @var array*/
     private array $items = [];
@@ -25,14 +26,16 @@ class Checklist {
      *
      * @param OutputInterface $output
      */
-    public function __construct(OutputInterface $output) {
+    public function __construct(OutputInterface $output)
+    {
         $this->output = $output;
     }
 
     /**
      * @param string $message
      */
-    public function addItem(string $message): void {
+    public function addItem(string $message): void
+    {
         $item = ['message' => $message];
 
         if ($this->useSpinner()) {
@@ -47,7 +50,8 @@ class Checklist {
 
     /**
      */
-    public function completePreviousItem(): void {
+    public function completePreviousItem(): void
+    {
         if ($this->useSpinner()) {
             $item = $this->getLastItem();
             /** @var Spinner $spinner */
@@ -62,14 +66,16 @@ class Checklist {
     /**
      *
      */
-    private function getLastItem() {
+    private function getLastItem()
+    {
         return end($this->items);
     }
 
     /**
      * @param $update_message
      */
-    public function updateProgressBar($update_message): void {
+    public function updateProgressBar($update_message): void
+    {
         $item = $this->getLastItem();
         if (!$item) {
             return;
@@ -98,7 +104,8 @@ class Checklist {
     /**
      *
      */
-    private function useSpinner(): bool {
+    private function useSpinner(): bool
+    {
         return $this->output instanceof ConsoleOutput
             && (getenv('CI') !== 'true' || getenv('PHPUNIT_RUNNING'));
     }
@@ -106,8 +113,8 @@ class Checklist {
     /**
      * @return array
      */
-    public function getItems(): array {
+    public function getItems(): array
+    {
         return $this->items;
     }
-
 }
