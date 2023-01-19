@@ -106,8 +106,7 @@ class Checklist
      */
     private function useSpinner(): bool
     {
-        return $this->output instanceof ConsoleOutput
-            && (getenv('CI') !== 'true' || getenv('PHPUNIT_RUNNING'));
+        return $this->output instanceof ConsoleOutput;
     }
 
     /**

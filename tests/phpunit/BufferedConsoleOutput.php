@@ -6,7 +6,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 
 /**
- * This is a combination of put and ConsoleOutput.
+ * This is a combination of BufferedOutput and ConsoleOutput.
  *
  * It allows us to capture output in a buffer for PHPUnit assertions and
  * simultaneously print output to the console for debugging.
@@ -26,7 +26,7 @@ class BufferedConsoleOutput extends ConsoleOutput
      * @return string
      *   Contents of buffer
      */
-    public function fetch()
+    public function fetch(): string
     {
         $content = (string) getenv(self::ENV_VAR_KEY);
         putenv(self::ENV_VAR_KEY . '=');
