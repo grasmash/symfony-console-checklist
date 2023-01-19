@@ -55,6 +55,7 @@ class BufferedConsoleOutput extends ConsoleOutput
      */
     public function section(): ConsoleSectionOutput
     {
+        // Overwrite the default php://output stream used by ConsoleOutput.
         $stream =  fopen($this->outputStreamFilename, 'w');
         return new ConsoleSectionOutput(
             $stream,
